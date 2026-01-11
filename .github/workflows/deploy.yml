@@ -11,17 +11,18 @@ jobs:
 
     steps:
       - name: Deploy via SSH
-        uses: appleboy/ssh-action@v0.1.7
+        uses: appleboy/ssh-action@v1.0.3
         with:
-          host: IP_PUBLIC_SERVER_KAMU
-          username: deploy
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SERVER_SSH_KEY }}
           port: 22
+          timeout: 60s
+          command_timeout: 10m
           script_stop: true
-          debug: true
           script: |
             whoami
-            hostname
             pwd
             cd /home/deploy/Project/TugasMJSCICD
-            git pull origin main
+            git fetch --all
+            git reset --hard origin/main
