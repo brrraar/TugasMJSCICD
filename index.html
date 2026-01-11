@@ -1,126 +1,143 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CI/CD Auto Deploy Test</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CI/CD Auto Deploy</title>
 
-    <style>
-        body {
-            font-family: Arial, Helvetica, sans-serif;
-            background: radial-gradient(circle at top, #1e293b, #020617);
-            color: #e5e7eb;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-        }
+<style>
+    :root {
+        --bg-dark: #020617;
+        --card-dark: #0f172a;
+        --border: #1e293b;
+        --text-main: #e5e7eb;
+        --text-muted: #94a3b8;
+        --accent: #38bdf8;
+        --success: #22c55e;
+    }
 
-        .card {
-            background: rgba(15, 23, 42, 0.9);
-            padding: 40px 50px;
-            border-radius: 16px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
-            text-align: center;
-            max-width: 520px;
-            width: 100%;
-            border: 1px solid #334155;
-            animation: fadeIn 1s ease;
-        }
+    body {
+        margin: 0;
+        height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: linear-gradient(180deg, #020617, #020617 60%, #020617);
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+        color: var(--text-main);
+    }
 
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
+    .card {
+        background: var(--card-dark);
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        padding: 36px 42px;
+        max-width: 460px;
+        width: 100%;
+        text-align: center;
+        box-shadow: 0 20px 50px rgba(0,0,0,.45);
+        animation: fade 0.8s ease;
+    }
 
-        h1 {
-            font-size: 2.3rem;
-            margin-bottom: 10px;
-            color: #38bdf8;
+    @keyframes fade {
+        from {
+            opacity: 0;
+            transform: translateY(16px);
         }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
 
-        .badge {
-            display: inline-block;
-            background: #22c55e;
-            color: #022c22;
-            padding: 5px 14px;
-            border-radius: 999px;
-            font-size: 0.85rem;
-            font-weight: bold;
-            margin-bottom: 20px;
-        }
+    .status {
+        display: inline-block;
+        background: rgba(34,197,94,.15);
+        color: var(--success);
+        padding: 6px 14px;
+        border-radius: 999px;
+        font-size: .8rem;
+        font-weight: 600;
+        margin-bottom: 18px;
+    }
 
-        p {
-            font-size: 1.1rem;
-            color: #cbd5f5;
-            margin-bottom: 30px;
-        }
+    h1 {
+        font-size: 1.9rem;
+        margin: 0 0 8px;
+        color: var(--accent);
+        letter-spacing: .3px;
+    }
 
-        .info {
-            background: #020617;
-            border: 1px dashed #475569;
-            border-radius: 10px;
-            padding: 15px;
-            font-size: 0.95rem;
-            color: #94a3b8;
-        }
+    p {
+        font-size: 1rem;
+        color: var(--text-muted);
+        margin-bottom: 28px;
+    }
 
-        .info span {
-            color: #facc15;
-            font-weight: bold;
-        }
+    .info {
+        border-top: 1px dashed var(--border);
+        border-bottom: 1px dashed var(--border);
+        padding: 16px 0;
+        font-size: .95rem;
+        line-height: 1.6;
+        color: var(--text-muted);
+    }
 
-        button {
-            margin-top: 25px;
-            padding: 12px 30px;
-            font-size: 1rem;
-            font-weight: bold;
-            border-radius: 999px;
-            border: none;
-            background: linear-gradient(135deg, #38bdf8, #0ea5e9);
-            color: #020617;
-            cursor: pointer;
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-        }
+    .info span {
+        color: var(--text-main);
+        font-weight: 600;
+    }
 
-        button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(56,189,248,0.4);
-        }
+    button {
+        margin-top: 26px;
+        padding: 10px 28px;
+        border-radius: 999px;
+        border: 1px solid var(--border);
+        background: transparent;
+        color: var(--accent);
+        font-weight: 600;
+        cursor: pointer;
+        transition: all .2s ease;
+    }
 
-        footer {
-            margin-top: 25px;
-            font-size: 0.8rem;
-            color: #64748b;
-        }
-    </style>
+    button:hover {
+        background: rgba(56,189,248,.1);
+        border-color: var(--accent);
+        transform: translateY(-1px);
+    }
+
+    footer {
+        margin-top: 22px;
+        font-size: .75rem;
+        color: #64748b;
+    }
+</style>
 </head>
 <body>
 
-    <div class="card">
-        <div class="badge">CI/CD DEPLOY SUCCESS</div>
+<div class="card">
+    <div class="status">DEPLOY SUCCESS</div>
 
-        <h1>Nginx + GitHub Actions</h1>
-        <p>Halaman ini di-deploy otomatis setiap kali ada <b>push ke repository</b>.</p>
+    <h1>CI/CD Active</h1>
+    <p>Website ini ter-deploy otomatis melalui <b>GitHub Actions</b>.</p>
 
-        <div class="info">
-            🚀 Versi Aplikasi: <span>v1.2.0</span><br>
-            ⏱️ Deploy Time: <span id="deployTime">loading...</span>
-        </div>
-
-        <button onclick="location.reload()">Reload Page</button>
-
-        <footer>
-            Auto Deploy Test • Server Production
-        </footer>
+    <div class="info">
+        🚀 Version: <span>v1.2.0</span><br>
+        ⏱️ Deployed at: <span id="deployTime">—</span>
     </div>
 
-    <script>
-        const now
+    <button onclick="location.reload()">Reload</button>
+
+    <footer>
+        Nginx • Production Server
+    </footer>
+</div>
+
+<script>
+    const now = new Date();
+    document.getElementById("deployTime").textContent =
+        now.toLocaleString();
+</script>
+
+</body>
+</html>
