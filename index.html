@@ -3,172 +3,294 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CI/CD Deployment Status</title>
+<title>CI/CD Deployment Dashboard</title>
 
 <style>
-    :root {
-        --bg: #020617;
-        --card: #0b1220;
-        --border: #1f2937;
-        --text: #e5e7eb;
-        --muted: #9ca3af;
-        --accent: #38bdf8;
-        --success: #22c55e;
-    }
+:root {
+    --bg: #020617;
+    --panel: #0b1220;
+    --border: #1f2937;
+    --text: #e5e7eb;
+    --muted: #9ca3af;
+    --accent: #38bdf8;
+    --success: #22c55e;
+    --warning: #facc15;
+}
 
-    * {
-        box-sizing: border-box;
-    }
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
 
-    body {
-        margin: 0;
-        height: 100vh;
-        display: grid;
-        place-items: center;
-        background: radial-gradient(circle at top, #020617, #01030a);
-        font-family: system-ui, -apple-system, Segoe UI, sans-serif;
-        color: var(--text);
-    }
+body {
+    min-height: 100vh;
+    background: radial-gradient(circle at top, #020617, #01030a);
+    font-family: system-ui, -apple-system, Segoe UI, sans-serif;
+    color: var(--text);
+    display: grid;
+    place-items: center;
+}
 
-    .card {
-        width: 100%;
-        max-width: 420px;
-        background: var(--card);
-        border: 1px solid var(--border);
-        border-radius: 16px;
-        padding: 32px;
-        box-shadow: 0 30px 60px rgba(0,0,0,.55);
-        animation: appear .6s ease;
-    }
+.container {
+    width: 100%;
+    max-width: 880px;
+    padding: 20px;
+}
 
-    @keyframes appear {
-        from {
-            opacity: 0;
-            transform: translateY(14px);
-        }
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    }
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
 
-    .status {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 8px;
-        margin-bottom: 14px;
-        font-size: .8rem;
-        font-weight: 600;
-        color: var(--success);
-    }
+.header h1 {
+    font-size: 1.8rem;
+    color: var(--accent);
+}
 
-    .status::before {
-        content: "";
-        width: 8px;
-        height: 8px;
-        border-radius: 50%;
-        background: var(--success);
-        box-shadow: 0 0 10px rgba(34,197,94,.9);
-    }
+.badge {
+    padding: 6px 12px;
+    border-radius: 999px;
+    font-size: .75rem;
+    font-weight: 700;
+    background: rgba(34,197,94,.15);
+    color: var(--success);
+    border: 1px solid rgba(34,197,94,.4);
+}
 
-    h1 {
-        margin: 0;
-        text-align: center;
-        font-size: 1.75rem;
-        color: var(--accent);
-    }
+.card {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 24px;
+    box-shadow: 0 30px 60px rgba(0,0,0,.55);
+    animation: fadeIn .6s ease;
+}
 
-    p {
-        margin: 10px 0 26px;
-        text-align: center;
-        font-size: .95rem;
-        color: var(--muted);
-    }
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
 
-    .info {
-        display: grid;
-        gap: 10px;
-        padding: 16px;
-        border-radius: 10px;
-        border: 1px dashed var(--border);
-        background: rgba(255,255,255,.02);
-        font-size: .9rem;
-    }
+.status {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 700;
+    margin-bottom: 14px;
+}
 
-    .info div {
-        display: flex;
-        justify-content: space-between;
-        color: var(--muted);
-    }
+.status::before {
+    content: "";
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--success);
+    box-shadow: 0 0 12px rgba(34,197,94,.9);
+}
 
-    .info span {
-        color: var(--text);
-        font-weight: 600;
-    }
+.description {
+    color: var(--muted);
+    margin-bottom: 22px;
+    font-size: .95rem;
+}
 
-    button {
-        width: 100%;
-        margin-top: 22px;
-        padding: 10px;
-        border-radius: 10px;
-        border: 1px solid var(--border);
-        background: transparent;
-        color: var(--accent);
-        font-weight: 600;
-        cursor: pointer;
-        transition: .2s ease;
-    }
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px,1fr));
+    gap: 14px;
+}
 
-    button:hover {
-        background: rgba(56,189,248,.1);
-        border-color: var(--accent);
-    }
+.box {
+    border: 1px dashed var(--border);
+    border-radius: 12px;
+    padding: 14px;
+    background: rgba(255,255,255,.02);
+}
 
-    footer {
-        margin-top: 18px;
-        text-align: center;
-        font-size: .75rem;
-        color: #6b7280;
-    }
+.box h3 {
+    font-size: .85rem;
+    color: var(--muted);
+    margin-bottom: 6px;
+}
+
+.box span {
+    font-weight: 700;
+}
+
+.progress {
+    margin-top: 20px;
+}
+
+.progress label {
+    font-size: .8rem;
+    color: var(--muted);
+}
+
+.progress-bar {
+    height: 10px;
+    border-radius: 999px;
+    background: #020617;
+    border: 1px solid var(--border);
+    overflow: hidden;
+    margin-top: 6px;
+}
+
+.progress-fill {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent), var(--success));
+    animation: load 2s ease;
+}
+
+@keyframes load {
+    from { width: 0; }
+    to { width: 100%; }
+}
+
+.timeline {
+    margin-top: 26px;
+}
+
+.timeline h2 {
+    font-size: 1rem;
+    margin-bottom: 12px;
+    color: var(--accent);
+}
+
+.step {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 10px;
+    font-size: .9rem;
+}
+
+.step::before {
+    content: "✔";
+    color: var(--success);
+}
+
+.logs {
+    margin-top: 24px;
+    background: #020617;
+    border-radius: 12px;
+    padding: 14px;
+    font-family: monospace;
+    font-size: .8rem;
+    border: 1px solid var(--border);
+    color: #9ca3af;
+    max-height: 140px;
+    overflow-y: auto;
+}
+
+.logs span {
+    color: var(--success);
+}
+
+.actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 22px;
+}
+
+button {
+    flex: 1;
+    padding: 10px;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--accent);
+    font-weight: 600;
+    cursor: pointer;
+    transition: .2s;
+}
+
+button:hover {
+    background: rgba(56,189,248,.1);
+    border-color: var(--accent);
+}
+
+footer {
+    margin-top: 18px;
+    text-align: center;
+    font-size: .75rem;
+    color: #6b7280;
+}
 </style>
 </head>
+
 <body>
+<div class="container">
 
-<div class="card">
-    <div class="status">DEPLOY SUCCESS</div>
-
-    <h1>CI/CD Pipeline Active</h1>
-    <p>Deployment otomatis berjalan melalui GitHub Actions.</p>
-
-    <div class="info">
-        <div>
-            <span>Version</span>
-            <span>v1.2.0</span>
-        </div>
-        <div>
-            <span>Deployed At</span>
-            <span id="deployTime">—</span>
-        </div>
-        <div>
-            <span>Server</span>
-            <span>Nginx (Production)</span>
-        </div>
+    <div class="header">
+        <h1>CI/CD Dashboard</h1>
+        <div class="badge">PRODUCTION</div>
     </div>
 
-    <button onclick="location.reload()">Reload Status</button>
+    <div class="card">
+        <div class="status">DEPLOYMENT SUCCESS</div>
+        <p class="description">
+            Aplikasi berhasil dideploy otomatis menggunakan GitHub Actions dan SSH Deployment.
+        </p>
 
-    <footer>
-        CI/CD • Automation Enabled
-    </footer>
+        <div class="grid">
+            <div class="box">
+                <h3>Version</h3>
+                <span>v1.2.0</span>
+            </div>
+            <div class="box">
+                <h3>Server</h3>
+                <span>Nginx • Ubuntu</span>
+            </div>
+            <div class="box">
+                <h3>Branch</h3>
+                <span>main</span>
+            </div>
+            <div class="box">
+                <h3>Deployed At</h3>
+                <span id="deployTime">—</span>
+            </div>
+        </div>
+
+        <div class="progress">
+            <label>Deployment Progress</label>
+            <div class="progress-bar">
+                <div class="progress-fill"></div>
+            </div>
+        </div>
+
+        <div class="timeline">
+            <h2>Pipeline Stages</h2>
+            <div class="step">Checkout repository</div>
+            <div class="step">Build application</div>
+            <div class="step">SSH connection</div>
+            <div class="step">Pull latest changes</div>
+            <div class="step">Restart service</div>
+        </div>
+
+        <div class="logs">
+            <div><span>[OK]</span> Connected to server</div>
+            <div><span>[OK]</span> Git fetch completed</div>
+            <div><span>[OK]</span> Code updated</div>
+            <div><span>[OK]</span> Deployment finished</div>
+        </div>
+
+        <div class="actions">
+            <button onclick="location.reload()">Reload</button>
+            <button onclick="alert('CI/CD pipeline is healthy')">Check Status</button>
+        </div>
+
+        <footer>
+            CI/CD Automation • GitHub Actions • SSH Deploy
+        </footer>
+    </div>
 </div>
 
 <script>
-    document.getElementById("deployTime").textContent =
-        new Date().toLocaleString();
+document.getElementById("deployTime").textContent =
+    new Date().toLocaleString();
 </script>
-
 </body>
 </html>
-
-
