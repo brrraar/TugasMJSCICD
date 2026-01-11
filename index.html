@@ -3,62 +3,124 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CI/CD Test Page</title>
+    <title>CI/CD Auto Deploy Test</title>
+
     <style>
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #e0f7fa, #b2ebf2);
+            font-family: Arial, Helvetica, sans-serif;
+            background: radial-gradient(circle at top, #1e293b, #020617);
+            color: #e5e7eb;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
             margin: 0;
         }
-        .container {
-            background-color: #ffffff;
-            padding: 50px 70px;
-            border-radius: 15px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+
+        .card {
+            background: rgba(15, 23, 42, 0.9);
+            padding: 40px 50px;
+            border-radius: 16px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
             text-align: center;
-            max-width: 500px;
+            max-width: 520px;
+            width: 100%;
+            border: 1px solid #334155;
+            animation: fadeIn 1s ease;
         }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
         h1 {
-            color: #00796b;
-            font-size: 2.5rem;
-            margin-bottom: 15px;
+            font-size: 2.3rem;
+            margin-bottom: 10px;
+            color: #38bdf8;
         }
-        p {
-            color: #555555;
-            font-size: 1.2rem;
-            margin-bottom: 25px;
-        }
-        .button {
+
+        .badge {
             display: inline-block;
-            padding: 12px 25px;
-            background-color: #00796b;
-            color: #ffffff;
-            text-decoration: none;
+            background: #22c55e;
+            color: #022c22;
+            padding: 5px 14px;
+            border-radius: 999px;
+            font-size: 0.85rem;
             font-weight: bold;
-            border-radius: 50px;
-            transition: background-color 0.3s ease;
+            margin-bottom: 20px;
         }
-        .button:hover {
-            background-color: #004d40;
+
+        p {
+            font-size: 1.1rem;
+            color: #cbd5f5;
+            margin-bottom: 30px;
         }
-        small {
-            display: block;
-            margin-top: 20px;
-            color: #999999;
-            font-size: 0.9rem;
+
+        .info {
+            background: #020617;
+            border: 1px dashed #475569;
+            border-radius: 10px;
+            padding: 15px;
+            font-size: 0.95rem;
+            color: #94a3b8;
+        }
+
+        .info span {
+            color: #facc15;
+            font-weight: bold;
+        }
+
+        button {
+            margin-top: 25px;
+            padding: 12px 30px;
+            font-size: 1rem;
+            font-weight: bold;
+            border-radius: 999px;
+            border: none;
+            background: linear-gradient(135deg, #38bdf8, #0ea5e9);
+            color: #020617;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(56,189,248,0.4);
+        }
+
+        footer {
+            margin-top: 25px;
+            font-size: 0.8rem;
+            color: #64748b;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Hello from Nginx + GitHub Actions!</h1>
-        <p>This page was updated automatically via CI/CD.</p>
-        <a href="#" class="button">Refresh Page</a>
-        <small>Last updated: <!-- bisa update manual atau via CI/CD timestamp --></small>
+
+    <div class="card">
+        <div class="badge">CI/CD DEPLOY SUCCESS</div>
+
+        <h1>Nginx + GitHub Actions</h1>
+        <p>Halaman ini di-deploy otomatis setiap kali ada <b>push ke repository</b>.</p>
+
+        <div class="info">
+            🚀 Versi Aplikasi: <span>v1.2.0</span><br>
+            ⏱️ Deploy Time: <span id="deployTime">loading...</span>
+        </div>
+
+        <button onclick="location.reload()">Reload Page</button>
+
+        <footer>
+            Auto Deploy Test • Server Production
+        </footer>
     </div>
-</body>
-</html>
+
+    <script>
+        const now
