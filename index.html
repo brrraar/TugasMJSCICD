@@ -7,30 +7,49 @@
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: #f0f4f8;
-            color: #333;
+            background: linear-gradient(135deg, #e0f7fa, #b2ebf2);
             display: flex;
-            flex-direction: column;
             justify-content: center;
             align-items: center;
             height: 100vh;
             margin: 0;
         }
+        .container {
+            background-color: #ffffff;
+            padding: 50px 70px;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            text-align: center;
+            max-width: 500px;
+        }
         h1 {
-            color: #2c3e50;
+            color: #00796b;
             font-size: 2.5rem;
-            margin-bottom: 10px;
+            margin-bottom: 15px;
         }
         p {
-            color: #555;
+            color: #555555;
             font-size: 1.2rem;
+            margin-bottom: 25px;
         }
-        .container {
-            text-align: center;
-            background: #fff;
-            padding: 40px 60px;
-            border-radius: 12px;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+        .button {
+            display: inline-block;
+            padding: 12px 25px;
+            background-color: #00796b;
+            color: #ffffff;
+            text-decoration: none;
+            font-weight: bold;
+            border-radius: 50px;
+            transition: background-color 0.3s ease;
+        }
+        .button:hover {
+            background-color: #004d40;
+        }
+        small {
+            display: block;
+            margin-top: 20px;
+            color: #999999;
+            font-size: 0.9rem;
         }
     </style>
 </head>
@@ -38,7 +57,8 @@
     <div class="container">
         <h1>Hello from Nginx + GitHub Actions!</h1>
         <p>This page was updated automatically via CI/CD.</p>
+        <a href="#" class="button">Refresh Page</a>
+        <small>Last updated: <!-- bisa update manual atau via CI/CD timestamp --></small>
     </div>
 </body>
 </html>
-
